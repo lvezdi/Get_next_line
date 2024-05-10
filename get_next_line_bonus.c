@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:38:04 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/10 15:27:39 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:29:24 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/*static char	*take_after_new_line(char *temp)
+char	*ft_strdup(const char *s1)
+{
+	char	*dst;
+	char	*begin;
+
+	dst = (char *)malloc(ft_strlen(s1) + 1);
+	if (dst == NULL)
+		return (NULL);
+	begin = dst;
+	while (*s1 != '\0')
+		*dst++ = *s1++;
+	*dst = '\0';
+	return (begin);
+}
+
+static char	*take_after_new_line(char *temp)
 {
 	int		i;
 	int		j;
@@ -26,11 +41,11 @@
 		free(temp);
 		return (NULL);
 	}
-	if (temp == "\n")
-		return (free(temp), NULL);
 	dest = malloc(sizeof(char) * (ft_strlen(temp) - i + 1));
 	if (!dest)
+	{
 		return (free(temp), NULL);
+	}
 	j = 0;
 	while (temp[i])
 		dest[j++] = temp[++i];
@@ -69,28 +84,23 @@ static char	*take_until_new_line(char *buf)
 static char	*read_until_new_line(int fd, char *str)
 {
 	char	*buff;
-	char	*line;
-	int		bytes_read;
+	int		readed;
 
 	if (!str)
-	{
-		str = malloc(1 * sizeof(char));
-		str[0] = '\0';
-	}
+		str = ft_calloc(1, 1);
 	if (!str)
 		return (NULL);
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (free(str), NULL);
-	bytes_read = 1;
-	while (!ft_strchr(str, '\n') && bytes_read != 0)
+	readed = 1;
+	while (!ft_strchr(str, '\n') && readed != 0)
 	{
-		bytes_read = read(fd, buff, BUFFER_SIZE);
-		if (bytes_read == -1)
+		readed = read(fd, buff, BUFFER_SIZE);
+		if (readed == -1)
 			return (free(buff), free(str), NULL);
-		buff[bytes_read] = '\0';
-		line = str;
-		str = ft_strjoin(line, buff);
+		buff[readed] = '\0';
+		str = ft_strjoin(str, buff);
 		if (!str)
 			return (free(buff), NULL);
 	}
@@ -100,23 +110,20 @@ static char	*read_until_new_line(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	static char	*str;
-	char		*read;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE == INT_MAX)
 		return (NULL);
-	read = read_until_new_line(fd, str);
-	if (!read)
+	str = read_until_new_line(fd, str);
+	if (!str)
 		return (0);
-	line = take_until_new_line(read);
+	line = take_until_new_line(str);
 	if (!line)
 	{
-		free(line);
-		free(read);
 		free(str);
 		str = NULL;
 		return (NULL);
 	}
-	str = take_after_new_line(read);
+	str = take_after_new_line(str);
 	return (line);
-}*/
+}

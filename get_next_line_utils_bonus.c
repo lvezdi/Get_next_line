@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:38:11 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/10 15:43:44 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:47:32 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+/*#include "get_next_line.h"
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -57,6 +57,36 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*str;
+	size_t			i;
+
+	str = b;
+	i = 0;
+	while (i < len)
+	{
+		str[i] = (unsigned char) c;
+		i++;
+	}
+	return (b);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	total_size;
+	void	*pointer;
+
+	if (size != 0 && count > SIZE_MAX / size)
+		return (0);
+	total_size = count * size;
+	pointer = malloc(total_size);
+	if (pointer == NULL)
+		return (NULL);
+	ft_memset(pointer, 0, total_size);
+	return (pointer);
+}
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -66,35 +96,31 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-/*int	main(void)
+
+int	main()
 {
 	int	fd;
-	char	*newline;
+	int size;
+	char *buff;
 
-	fd = open("test.txt", O_RDONLY);
-	while ((newline = get_next_line(fd)))
+	fd = open("./test.txt", O_RDONLY);
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	
+	buff[BUFFER_SIZE] = '\0';
+	size = read(fd, buff, BUFFER_SIZE);
+	printf("size: %d\n", size);
+	if (fd == -1)
 	{
-		printf("%s\n", newline);
-		free(newline);
+		perror("Error opening the file");
+		close(fd);
+		return (1);
 	}
+	else
+	{
+		printf("Content read: %s\n" , buff);
+		close(fd);
+	}
+	printf("fd: %d\n", fd);
+	free(buff);
 	return (0);
-}*/
-
-/*int main(void)
-{
-    int     fd;
-   char    *str;
-    int     i;
-
-    i = 0;
-    fd = open("test.txt", O_RDONLY);
-    printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
-    while (i <= 7)
-    {
-        str = get_next_line(fd);
-        printf("line %i=>%s\n", i + 1, str);
-        free(str);
-        i++;
-    }
-    return (0);
 }*/

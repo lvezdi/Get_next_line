@@ -6,7 +6,7 @@
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 11:42:20 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/10 15:42:29 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:20:21 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4
+#  define BUFFER_SIZE 42
 # endif
 
 # include <unistd.h>
@@ -27,7 +27,6 @@
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(const char *s1);
 
 size_t	ft_strlen(const char *s);
 

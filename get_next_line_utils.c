@@ -6,7 +6,7 @@
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:38:11 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/10 15:43:44 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:02:35 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,35 +66,3 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-/*int	main(void)
-{
-	int	fd;
-	char	*newline;
-
-	fd = open("test.txt", O_RDONLY);
-	while ((newline = get_next_line(fd)))
-	{
-		printf("%s\n", newline);
-		free(newline);
-	}
-	return (0);
-}*/
-
-/*int main(void)
-{
-    int     fd;
-   char    *str;
-    int     i;
-
-    i = 0;
-    fd = open("test.txt", O_RDONLY);
-    printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
-    while (i <= 7)
-    {
-        str = get_next_line(fd);
-        printf("line %i=>%s\n", i + 1, str);
-        free(str);
-        i++;
-    }
-    return (0);
-}*/

@@ -6,11 +6,11 @@
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:38:04 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/10 15:29:24 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:45:02 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+/*#include "get_next_line.h"
 
 char	*ft_strdup(const char *s1)
 {
@@ -126,4 +126,38 @@ char	*get_next_line(int fd)
 	}
 	str = take_after_new_line(str);
 	return (line);
-}
+}*/
+
+/*int	main(void)
+{
+	int	fd;
+	char	*newline;
+
+	fd = open("test.txt", O_RDONLY);
+	//printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
+	while ((newline = get_next_line(fd)))
+	{
+		printf("%s\n", newline);
+		free(newline);
+	}
+	return (0);
+}*/
+
+/*int main(void)
+{
+    int     fd;
+   char    *str;
+    int     i;
+
+    i = 0;
+    fd = open("test.txt", O_RDONLY);
+    printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
+    while (i <= 9)
+    {
+        str = get_next_line(fd);
+        printf("line %i=>%s\n", i + 1, str);
+        free(str);
+        i++;
+    }
+    return (0);
+}*/

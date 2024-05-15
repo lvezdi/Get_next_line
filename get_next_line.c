@@ -6,7 +6,7 @@
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:38:04 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/13 17:32:38 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:38:09 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	*get_next_line(int fd)
 	static char	*str;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE == INT_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = read_until_new_line(fd, &str);
 	if (!str)
@@ -115,7 +115,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int	main(int argc, char *argv[])
+/*int	main(int argc, char *argv[])
 {
 	char *buffer;
 
@@ -181,4 +181,20 @@ int	main(int argc, char *argv[])
 	}
 
 	return 0;
-}
+}*/
+
+/*int main()
+{
+	int	fd;
+	char	*line;
+
+	fd = open("t1", O_RDONLY);
+	while ((line = get_next_line(1)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	printf("%s", line);
+	close(fd);
+	return (0);
+}*/

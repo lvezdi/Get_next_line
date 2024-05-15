@@ -6,26 +6,11 @@
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:38:04 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/13 11:45:02 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:50:07 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include "get_next_line.h"
-
-char	*ft_strdup(const char *s1)
-{
-	char	*dst;
-	char	*begin;
-
-	dst = (char *)malloc(ft_strlen(s1) + 1);
-	if (dst == NULL)
-		return (NULL);
-	begin = dst;
-	while (*s1 != '\0')
-		*dst++ = *s1++;
-	*dst = '\0';
-	return (begin);
-}
+#include "get_next_line_bonus.h"
 
 static char	*take_after_new_line(char *temp)
 {
@@ -43,9 +28,7 @@ static char	*take_after_new_line(char *temp)
 	}
 	dest = malloc(sizeof(char) * (ft_strlen(temp) - i + 1));
 	if (!dest)
-	{
 		return (free(temp), NULL);
-	}
 	j = 0;
 	while (temp[i])
 		dest[j++] = temp[++i];
@@ -54,110 +37,130 @@ static char	*take_after_new_line(char *temp)
 	return (dest);
 }
 
-static char	*take_until_new_line(char *buf)
+static char	*take_until_new_line(char *str)
 {
 	int		i;
 	char	*dest;
 
 	i = 0;
-	if (!buf[i])
+	if (!str[i])
 		return (NULL);
-	while (buf && buf[i] && buf[i] != '\n')
+	while (str && str[i] && str[i] != '\n')
 		i++;
-	if (buf[i] == '\n')
+	if (str[i] == '\n')
 		i++;
 	dest = malloc(sizeof(char) * (i + 1));
 	if (!dest)
 		return (NULL);
 	i = 0;
-	while (buf && buf[i] && buf[i] != '\n')
+	while (str && str[i] && str[i] != '\n')
 	{
-		dest[i] = buf[i];
+		dest[i] = str[i];
 		i++;
 	}
-	if (buf[i] == '\n')
+	if (str[i] == '\n')
 		dest[i++] = '\n';
 	dest[i] = '\0';
 	return (dest);
 }
 
-static char	*read_until_new_line(int fd, char *str)
+static char	*read_until_new_line(int fd, char **str)
 {
 	char	*buff;
-	int		readed;
+	int		bytes_read;
 
-	if (!str)
-		str = ft_calloc(1, 1);
-	if (!str)
+	if (!*str)
+	{
+		*str = malloc(1 * sizeof(char));
+		*str[0] = '\0';
+	}
+	if (!*str)
 		return (NULL);
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
-		return (free(str), NULL);
-	readed = 1;
-	while (!ft_strchr(str, '\n') && readed != 0)
+		return (free(*str), NULL);
+	bytes_read = 1;
+	while (!ft_strchr(*str, '\n') && bytes_read != 0)
 	{
-		readed = read(fd, buff, BUFFER_SIZE);
-		if (readed == -1)
-			return (free(buff), free(str), NULL);
-		buff[readed] = '\0';
-		str = ft_strjoin(str, buff);
-		if (!str)
+		bytes_read = read(fd, buff, BUFFER_SIZE);
+		if (bytes_read == -1)
+			return (free(buff), free(*str), NULL);
+		buff[bytes_read] = '\0';
+		*str = ft_strjoin(*str, buff);
+		if (!*str)
 			return (free(buff), NULL);
 	}
-	return (free(buff), str);
+	return (free(buff), *str);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*str;
+	static char	*str[1024];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE == INT_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str = read_until_new_line(fd, str);
-	if (!str)
+	str[fd] = read_until_new_line(fd, &str[fd]);
+	if (!str[fd])
 		return (0);
-	line = take_until_new_line(str);
+	line = take_until_new_line(str[fd]);
 	if (!line)
 	{
-		free(str);
-		str = NULL;
+		free(line);
+		free(str[fd]);
+		str[fd] = NULL;
 		return (NULL);
 	}
-	str = take_after_new_line(str);
+	str[fd] = take_after_new_line(str[fd]);
 	return (line);
-}*/
-
-/*int	main(void)
+}
+/*int	main()
 {
-	int	fd;
-	char	*newline;
+	int fd1 = open("t1", O_RDONLY);
+	int fd2 = open("t2", O_RDONLY);
+	char	*line;
 
-	fd = open("test.txt", O_RDONLY);
-	//printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
-	while ((newline = get_next_line(fd)))
+	while ((line = get_next_line(fd1)) != NULL)
 	{
-		printf("%s\n", newline);
-		free(newline);
+		printf("%s", line);
+		free(line);
+		printf("%c", '\n');
+		while ((line = get_next_line(fd2)) != NULL)
+		{
+			printf("%s", line);
+			free(line);
+		}
+		printf("%c", '\n');
 	}
+	close(fd1);
+	close(fd2);
 	return (0);
 }*/
 
-/*int main(void)
+/*int main(int argc, char **argv)
 {
-    int     fd;
-   char    *str;
-    int     i;
-
-    i = 0;
-    fd = open("test.txt", O_RDONLY);
-    printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
-    while (i <= 9)
+    int fd;
+    char    *line;
+    int l;
+    for (int i = 1; i < argc; i++)
     {
-        str = get_next_line(fd);
-        printf("line %i=>%s\n", i + 1, str);
-        free(str);
-        i++;
+        fd = open(argv[i], O_RDONLY);
+        if (fd == -1)
+            return (0);
+        l = 1;
+        printf("Get_Next_Line de: %s \n", argv[i]);
+        while (1)
+        {
+            line = get_next_line(fd);
+            if (!line)
+            {
+                printf("\nFin del fichero\n");
+                break;
+            }
+            printf("[%d]: %s", l, line);
+            l++;
+        }
+        close(fd);
     }
     return (0);
 }*/

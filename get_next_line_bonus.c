@@ -6,7 +6,7 @@
 /*   By: lvez-dia <lvez-dia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:38:04 by lvez-dia          #+#    #+#             */
-/*   Updated: 2024/05/15 09:50:07 by lvez-dia         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:28:55 by lvez-dia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,32 +135,4 @@ char	*get_next_line(int fd)
 	close(fd1);
 	close(fd2);
 	return (0);
-}*/
-
-/*int main(int argc, char **argv)
-{
-    int fd;
-    char    *line;
-    int l;
-    for (int i = 1; i < argc; i++)
-    {
-        fd = open(argv[i], O_RDONLY);
-        if (fd == -1)
-            return (0);
-        l = 1;
-        printf("Get_Next_Line de: %s \n", argv[i]);
-        while (1)
-        {
-            line = get_next_line(fd);
-            if (!line)
-            {
-                printf("\nFin del fichero\n");
-                break;
-            }
-            printf("[%d]: %s", l, line);
-            l++;
-        }
-        close(fd);
-    }
-    return (0);
 }*/
